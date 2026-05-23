@@ -176,6 +176,35 @@ void cDataManager::deleteCategory(int index)
     emit applicationsChanged();
 }
 
+void cDataManager::moveCategory(int fromIndex, int toIndex)
+{
+    if (fromIndex < 0 || fromIndex >= m_Categories.size()) return;
+    if (toIndex < 0 || toIndex >= m_Categories.size()) return;
+    if (fromIndex == toIndex) return;
+    
+    // Перемещаем категорию
+    m_Categories.move(fromIndex, toIndex);
+    
+    // Обновляем references в активностях для всех профилей
+    for (int p = 0; p < m_Profiles.size(); p++) {
+        for (int a = 0; a < m_Applications.size(); a++) {
+            for (int act = 0; act < m_Applications[a].activities.size(); act++) {
+                int& catRef = m_Applications[a].activities[act].categories[p].category;
+                if (catRef == fromIndex) {
+                    catRef = toIndex;
+                } else if (fromIndex < toIndex) {
+                    if (catRef > fromIndex && catRef <= toIndex) catRef--;
+                } else if (fromIndex > toIndex) {
+                    if (catRef >= toIndex && catRef < fromIndex) catRef++;
+                }
+            }
+        }
+    }
+    
+    save();
+    emit categoriesChanged();
+}
+
 void cDataManager::setApplicationActivityCategory(int profile, int appIndex, int activityIndex, int category)
 {
     if (profile==-1){

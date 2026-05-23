@@ -64,7 +64,7 @@ void ApplicationsWindow::rebuildApplicationsList()
     for (int i = 0; i<m_DataManager->categoriesCount(); i++){
         const sCategory* category = m_DataManager->categories(i);
         categories[i] = createTreeItemCategory(i,category->color,category->name);
-        categories[i]->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDropEnabled | Qt::ItemIsEnabled);
+        categories[i]->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsDropEnabled | Qt::ItemIsEnabled | Qt::ItemIsDragEnabled);
         ui->treeWidgetApplications->addTopLevelItem(categories[i]);
     }    
     QTreeWidgetItem* uncategorized = createTreeItemCategory(-1,QColor(Qt::gray),tr("Uncategorized"));

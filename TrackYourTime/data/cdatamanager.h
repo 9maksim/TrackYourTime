@@ -182,7 +182,8 @@ public:
     const sCategory* categories(int index){return &m_Categories[index];}
     void setCategoryName(int index, const QString& Name){m_Categories[index].name = Name;}
     void setCategoryColor(int index, const QColor& color){m_Categories[index].color = color;}
-    void addNewCategory(const QString& Name, QColor color);
+    void addNewCategoryAt(const QString& name, const QColor& color, int position);
+    void moveCategory(int fromIndex, int toIndex);
     void deleteCategory(int index);
 
     int applicationsCount(){return m_Applications.size();}
